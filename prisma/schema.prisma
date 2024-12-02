@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id String @id @default(uuid())
+  firstName String @map("first_name") // code ke level ke upr firstName , and db ke andr first_name jayega
+  lastName String @map("last_name") // prefer hota hia ki last_name is tarh ki keys ka use kre
+  profileImageUrl String? @map("profile_image_url")
+  email String @unique
+  password String
+  salt String
+
+  @@map("users") // is pure ko map kr denge users se iska table bnega users se db me  
+}

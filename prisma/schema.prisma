@@ -16,7 +16,7 @@ datasource db {
 model User{
   id String @id @default(uuid())
   firstName String @map("first_name") // code ke level ke upr firstName , and db ke andr first_name jayega
-  lastName String @map("last_name") // prefer hota hia ki last_name is tarh ki keys ka use kre
+  lastName String? @map("last_name") // prefer hota hia ki last_name is tarh ki keys ka use kre
   profileImageUrl String? @map("profile_image_url")
   email String @unique
   password String

@@ -6,8 +6,12 @@ async function createApolloGraphqlServer(){
   // required ke liye !
   const gqlServer = new ApolloServer({
     typeDefs: `
+
+      ${User.typeDefs}
+
       type Query {
          ${User.queries}
+        # getContext: String
         # hello: String
       }
        
@@ -18,7 +22,13 @@ async function createApolloGraphqlServer(){
     `,
     resolvers: {
       Query: {
-        ...User.resolvers.queries
+        ...User.resolvers.queries,
+        // getContext:(_:any,parameter:any,context)=>{
+        //   console.log("contextcontext",context);
+        //   return "okay"
+          
+        // }
+
       },
       Mutation: {
         ...User.resolvers.mutations

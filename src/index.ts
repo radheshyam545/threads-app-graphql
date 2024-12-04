@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { expressMiddleware } from '@apollo/server/express4';
 import createApolloGraphqlServer from './graphql';
+import UserService from './services/user';
 
 // You can optionally use cors for handling cross-origin requests
 // import cors from 'cors';
@@ -68,8 +69,27 @@ async function init() {
   // so we can directly apply it to the /graphql route
   
   
-  app.use('/graphql', expressMiddleware(await createApolloGraphqlServer()));
+  app.use('/graphql', expressMiddleware(await createApolloGraphqlServer(),
+  
+  {context:async({req})=>{
+    // @ts-ignore
+     const token = req.headers["token"]
+    //  console.log("token",token,req.headers);
+     
+     try {
+      const user = UserService.decodeJWTToken(token as string)
+
+      return {user}
+     } catch (error) {
+      return {}
+     }
+  }}));
  
+// context bnayeng
+// jo b object yha pr return krega vo hamara context hogga 
+
+
+
   // Start the Express server
   app.listen(PORT, () => {
     console.log(`Server started at http://localhost:${PORT}`);
